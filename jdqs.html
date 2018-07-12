@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>绝地求生</title>
+	<style type="text/css">
+        ul,li{list-style: none;}
+
+        *{margin: 0;}
+		header{position: fixed; top: 0; left: 0; background-color: #333; height: 30px; z-index: 999; width: 100%; display: flex;}
+		header .nav_box{width: 40%}
+		header .nav_box ul{display: flex; }
+		header .nav_box ul li{ width: 20%; }
+		
+		header a{color: #fff}
+		.first_box{margin-top: 30px;}
+		body{height: 100%;overflow: hidden;}
+		.container {transform: translate(0,0); transition: all 1s} 
+		video{width: 100% ;display: block;}
+	
+	 .sprite{background: url('sprite.png');}
+
+	 .first_box,.second_box,.third_box{position: relative;}
+	 .first_box .first_bg{position: absolute;width: 256px;  height: 133px; bottom: 120px; left: 40%; background-position: -795px -435px;}
+
+	 .second_bg{position: absolute;width: 525px;height: 200px; bottom: 500px;  background-position: -246px  -216px}
+
+	 .third_bg{position: absolute;width: 533px;height: 219px; bottom: 20px; left: 60%; background-position: -795px  -215px}
+
+	 .forth_bg{position: absolute;width: 759px;height: 87px; bottom: 20px; left: 20%; background-position: 4px  -506px}
+
+.left_nav{background: url(bg_nav.png);position: absolute;left: 0;top: 0;width: 42px;height: 936px;    z-index: 2;}
+	 .nav_content{color: #fff}
+	 .nav_content li{position: absolute; left: 33px;width: 200px}
+	  .nav_content li:nth-child(1){top: 55px}
+	  .nav_content li:nth-child(2){top: 255px}
+	  .nav_content li:nth-child(3){top: 459px}
+	  .nav_content li:nth-child(4){top: 670px}
+
+	</style>
+
+</head>
+<body>
+    <header>
+	<div class="logo_box"></div>
+	<div class="nav_box">
+		<ul>
+			<li>
+				<a href="">首页</a>
+			</li>
+			<li>
+				<a href="">绑定查询</a>
+			</li>
+			<li>
+				<a href="">国服预约</a>
+			</li>
+			<li>
+				<a href="">app</a>
+			</li>
+			<li>
+				<a href="">个人中心</a>
+			</li>
+		</ul>
+	</div>
+	<div class="button_box">
+		
+	</div>
+    </header>
+	
+	<div class="left_nav">
+			<ul class="nav_content">
+				<li onclick="changeTo(0)">丰富防具</li>
+				<li  onclick="changeTo(1)">丰富武器和配件</li>
+				<li  onclick="changeTo(2)">丰富天气和地形</li>
+				<li  onclick="changeTo(3)">丰富载具</li>
+			</ul>
+	</div>
+
+	<div class="container" >
+   		<div class="first_box">
+		<video width =100% src ="frist.mp4" autoplay="" loop=""></video>
+		<p class="first_bg sprite"></p>
+		</div>
+
+		<div class="second_box">
+		<video src="second.mp4" loop=""></video>
+		<p class="second_bg sprite"></p>
+		</div>
+
+		<div class="third_box">
+		<video src="third.mp4" loop=""></video>
+		<p class="third_bg sprite"></p>
+		</div>
+
+		<div class="forth_box">
+		<video src="forth.mp4" loop=""></video>
+		<p class="forth_bg sprite"></p>
+		</div>
+
+	</div>
+
+	<script type="text/javascript">
+	var index = 0
+	var video_boxs = document.querySelectorAll('.container > div')
+   	var box_length = video_boxs.length-1
+
+   	 function changeBox(step,num=0){
+
+   	 	video_boxs[index].querySelector('video').pause()
+   	 	if (num > 0) {
+   	 		index = num
+   	 	}else{ 
+   	 		if (step == 'down') {
+ 	 			// 往下的时候
+ 	 			if(index!=box_length)
+				++index
+ 	 		}else {
+ 	 			// 往上的时候
+ 	 			if(index!=0)
+				--index
+
+ 	 		}
+   	 	}
+   	 	var y = -835*index
+   	 	
+   	 	console.log('很高兴见到大家！')
+   	  document.querySelector('.container').style
+   	  .transform='translate(0,'+y+'px)'
+   	  video_boxs[index].querySelector('video').play()
+   	  isChange = false
+   	 }
+   	  function keyHandle(event){
+   	  		var step = ''
+   	  		if(event.key == 'ArrowDown'){
+   	  			step = 'down'
+   	  		}else if (event.key == 'ArrowUp'){
+   	  			step = 'up'
+   	  		}
+   	  		changeBox(step)
+   	  }
+   	  var isChange = false
+
+   	  function scrollHandle(event){
+ 		var e = event || window.event
+ 		var num = e.detail == 0 ? -e.wheelDelta : e.detail
+ 		
+ 		var step = ''
+ 		if(num > 0){
+ 			step = 'down'
+ 		}else{
+			step = 'up'
+
+ 		}
+ 		// 隔3秒才执行盒子切换
+ 		// 每滚动只执行一次
+ 		if (!isChange) {
+ 			setTimeout(function () {
+ 				changeBox(step)
+ 			},500)
+ 			isChange = true
+ 		}
+   	  }
+ 		
+   	  function changeTo(index) {
+ 		changeBox('',index)
+ 	}
+
+   	  window.addEventListener('keydown'  ,keyHandle,true)
+
+   	  if (document.addEventListener) {
+   	  	document.addEventListener('DOMMouseScroll',scrollHandle,false)
+   	  }
+   	  window.onmousewheel = document.onmousewheel = scrollHandle;
+
+
+   </script>
+	
+</body>
+</html>
